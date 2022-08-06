@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="test.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Titulo</h1> 
+    <button onclick="realizarEscaneo()">Escanear</button>
+    <br>
+    <br>
+
+    <div id="idLoader" class="loader" style="display: none"></div>
+
+
+    <embed src="" id="idembed" width="100%" height="500" type="application/pdf">
+
+    <!-- <div id="my-container" class="ng-scope pdfobject-container">
+        <iframe src="" type="application/pdf" width="100%" height="100%" style="overflow: auto;">
+        </iframe>
+    </div> -->
+
+
+    <script>
+
+        var loader = document.getElementById("idLoader");
+
+
+
+
+        function realizarEscaneo() {
+            loader.style.display = "block";
+            document.getElementById("idembed").src = "";
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:3000/scan", true);
+            xhr.responseType = "blob";
+            xhr.onload = function (e) {
+                if (this.status === 200) {
+                    loader.style.display = "none";
+                    var file = window.URL.createObjectURL(this.response);
+                    document.getElementById("idembed").src = file;
+
+                }
+            };
+            xhr.send();
+        }
+
+        // $.ajax({
+        //     url: "http://localhost:3000/scan",
+        //     success: function (data, status, xhr) {   // success callback function
+        //         console.log("Success");
+        //         console.log(data);
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         console.log("Error");
+        //     }
+        // });
+
+        // $.ajax({
+        //     url: 'http://localhost:3000/scan',
+        //     success: function (data) {
+        //         var binaryData = [];
+        //         binaryData.push(data);
+        //         var url = window.URL.createObjectURL(new Blob(binaryData, { type: "application/pdf" }));
+        //         document.getElementById('idembed').src = url;
+        //         // window.open(url, "_blank");
+
+        //     }
+        // });
+
+
+    </script>
+
+</body>
+
+</html>
